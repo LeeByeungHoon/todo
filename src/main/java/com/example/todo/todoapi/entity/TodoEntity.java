@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_todo")
-public class todoEntity {
+public class TodoEntity {
     @Id
     // pk가 랜덤 문자열로 생성 - 절대 중복 X
     @GeneratedValue(generator = "system-uuid")
