@@ -2,6 +2,7 @@ package com.example.todo.todoapi.controller;
 
 import com.example.todo.todoapi.dto.request.TodoCreateRequestDTO;
 import com.example.todo.todoapi.dto.request.TodoModifyRequestDTO;
+import com.example.todo.todoapi.dto.response.TodoDetailResponseDTO;
 import com.example.todo.todoapi.dto.response.TodoListResponseDTO;
 import com.example.todo.todoapi.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,22 @@ public class TodoApiController {
     public ResponseEntity<?> getTodoList(){
         try {
             TodoListResponseDTO list = todoService.retrieve();
+            return ResponseEntity.ok().body(list);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(TodoListResponseDTO.builder().error(e.getMessage()).build());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTodoDetail(@PathVariable("id")String todoId){
+        if(todoId == null || todoId.equals("")){
+            return ResponseEntity
+                    .badRequest()
+                    .body(TodoListResponseDTO.builder().error("ID를 전달해주세요"));
+        }
+        try {
+            TodoDetailResponseDTO list = todoService.detail(todoId);
             return ResponseEntity.ok().body(list);
         } catch (Exception e) {
             log.error(e.getMessage());

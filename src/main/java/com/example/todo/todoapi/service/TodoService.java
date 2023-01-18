@@ -33,6 +33,12 @@ public class TodoService {
                 .build();
     }
 
+    public TodoDetailResponseDTO detail(final String todoId) {
+        TodoEntity todoEntity = todoRepository.findById(todoId).orElseThrow();
+
+        return new TodoDetailResponseDTO(todoEntity);
+    }
+
     // 할 일 등록
     public TodoListResponseDTO create(final TodoCreateRequestDTO todoCreateRequestDTO) throws RuntimeException{
         todoRepository.save(todoCreateRequestDTO.toEntity());
