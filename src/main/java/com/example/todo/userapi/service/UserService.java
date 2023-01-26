@@ -42,7 +42,13 @@ public class UserService {
         return new UserSignUpResponseDTO(save);
     }
 
-
+    // 이메일 중복확인
+    public boolean isDuplicate(String email){
+        if(email == null){
+            throw new RuntimeException("이메일 값이 없습니다.");
+        }
+        return userRepository.existsByEmail(email);
+    }
 
 
 }
