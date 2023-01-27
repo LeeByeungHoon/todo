@@ -39,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String userId = provider.validateAndGetUserId(token);
                 log.info("인증된 userId : {}", userId);
 
-                // 인증 완료!! api서버에서는 SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
+                // 인증 완료!! api 서버에서는 SecurityContextHolder 에 등록해야 인증된 사용자라고 생각한다.
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId, // 컨트롤러의 @AuthenticationPrincipal 값
                         null,

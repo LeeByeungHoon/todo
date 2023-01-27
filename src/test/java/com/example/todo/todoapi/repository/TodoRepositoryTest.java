@@ -62,7 +62,7 @@ class TodoRepositoryTest {
     @Test
     @DisplayName("회원의 할 일을 등록해야 한다.")
     void saveTodoWithUserTest(){
-        String email = "altm885@naver.co";
+        String email = "altm885@naver.com";
         UserEntity user = userRepository.findByEmail(email);
 
         //given
