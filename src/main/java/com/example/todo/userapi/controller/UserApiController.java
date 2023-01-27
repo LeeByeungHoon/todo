@@ -1,6 +1,8 @@
 package com.example.todo.userapi.controller;
 
 
+import com.example.todo.userapi.dto.LoginRequestDTO;
+import com.example.todo.userapi.dto.LoginResponseDTO;
 import com.example.todo.userapi.dto.UserSignUpDTO;
 import com.example.todo.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.userapi.exception.DuplicatedEmailException;
@@ -8,7 +10,6 @@ import com.example.todo.userapi.exception.NoRegisteredArgumentsException;
 import com.example.todo.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -64,5 +65,23 @@ public class UserApiController {
         return ResponseEntity.ok().body(flag);
     }
 
+    // 로그인 요청처리
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@Validated @RequestBody LoginRequestDTO requestDTO){
+        try {
+            LoginResponseDTO userInfo = userService.getByCredentials(requestDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(userInfo);
+        }catch (RuntimeException e){
+            return ResponseEntity
+                    .badRequest()
+                    .body(LoginResponseDTO.builder()
+                            .message(e.getMessage())
+                            .build()
+                    );
+        }
+
+    }
 
 }

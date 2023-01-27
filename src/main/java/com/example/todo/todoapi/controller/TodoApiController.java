@@ -116,6 +116,6 @@ public class TodoApiController {
                         .badRequest()
                         .body(TodoListResponseDTO.builder().error(e.getMessage()).build());
             }
-
     }
+
 }

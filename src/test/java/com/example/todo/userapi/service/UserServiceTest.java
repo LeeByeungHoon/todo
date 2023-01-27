@@ -1,5 +1,7 @@
 package com.example.todo.userapi.service;
 
+import com.example.todo.userapi.dto.LoginRequestDTO;
+import com.example.todo.userapi.dto.LoginResponseDTO;
 import com.example.todo.userapi.dto.UserSignUpDTO;
 import com.example.todo.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.userapi.entity.UserEntity;
@@ -60,7 +62,7 @@ class UserServiceTest {
         //then
         assertThrows(RuntimeException.class, () -> {
             //when
-            userService.getByCredentials(email,password);
+            userService.getByCredentials(new LoginRequestDTO(email,password));
         });
     }
 
@@ -69,13 +71,14 @@ class UserServiceTest {
     void userTest(){
         //given
         String email="altm885@naver.com";
-        String password = "";
+        String password = "qudgns6804!";
 
         //when
-        UserEntity userInfo = userService.getByCredentials(email, password);
+        LoginResponseDTO userInfo = userService.getByCredentials(new LoginRequestDTO(email,password));
 
 
         //then
         assertEquals("altm885@naver.com",userInfo.getEmail());
+        System.out.println(userInfo);
     }
 }
