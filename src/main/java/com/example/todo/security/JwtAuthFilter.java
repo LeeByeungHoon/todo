@@ -28,18 +28,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     // 필터의 할 일
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
         try {
+            // 요청 헤더에서 토큰 가져오기
             String token = parseBearerToken(request);
-            log.info("Jwt Token Filter is running..... - token: {}", token);
+            log.info("Jwt Token Filter is running.... - token: {}", token);
 
             // 토큰 위조 여부 검사
-            if (token != null){
+            if (token != null) {
                 String userId = provider.validateAndGetUserId(token);
                 log.info("인증된 userId : {}", userId);
 
-                // 인증 완료!! api 서버에서는 SecurityContextHolder 에 등록해야 인증된 사용자라고 생각한다.
+                // 인증 완료!! api서버에서는 SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId, // 컨트롤러의 @AuthenticationPrincipal 값
                         null,
@@ -56,14 +60,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.error("인증되지 않은 사용자입니다.");
         }
 
-        // 필터 체인에 내가 만든 커스텀필터를 실행시킴.
+        // 필터 체인에 내가 만든 커스텀필터 실행시킴.
         filterChain.doFilter(request, response);
     }
-    private String parseBearerToken(HttpServletRequest request){
+
+    private String parseBearerToken(HttpServletRequest request) {
         // 요청 헤더에서 토큰을 읽어온다.
         // 순수한 토큰값이 아니라 앞에 Bearer 가 붙어있으므로 제거해야 된다.
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+
+        if (StringUtils.hasText(bearerToken)
+                && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
