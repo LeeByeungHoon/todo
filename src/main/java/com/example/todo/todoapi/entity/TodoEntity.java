@@ -1,5 +1,6 @@
 package com.example.todo.todoapi.entity;
 
+import com.example.todo.userapi.entity.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,4 +33,8 @@ public class TodoEntity {
     @CreationTimestamp
     private LocalDateTime createDate; // 등록 시간
 
+    // 회원과 관계 설정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }
