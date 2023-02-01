@@ -2,6 +2,7 @@ package com.example.todo.userapi.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class UserEntity {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id; // 계정명 X 식별코드
 
     @Column(unique = true, nullable = false)
